@@ -1,4 +1,4 @@
-<img src="Base.png"/>
+<img src="Resources/Base.png"/>
 
 [![Version](https://img.shields.io/badge/pod-v1.0.0-blue.svg)]()
 [![License](https://img.shields.io/cocoapods/l/Hero.svg?style=flat)](https://github.com/markgravity/base/blob/master/LICENSE)
@@ -33,7 +33,15 @@ Then run `pod install`.
 
 Don't forget to `import Base` in every file you'd like to use Base.
 
+#### Xcode Templates
 
+- Open Terminal.app
+
+- On the command line, `cd` into the `Base` directory and run `./install_xcode_templates.sh`
+
+- Restart Xcode, enjoy
+
+  <img src="Resources/xcode.png"/>
 
 ## Documentations
 
