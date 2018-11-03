@@ -1,6 +1,4 @@
-<img src="https://cdn1.iconfinder.com/data/icons/web-icons-colored/100/volume-1-30-512.png" width="388"/>
-
-Just base things
+<img src="Base.png"/>
 
 [![Version](https://img.shields.io/badge/pod-v1.0.0-blue.svg)]()
 [![License](https://img.shields.io/cocoapods/l/Hero.svg?style=flat)](https://github.com/markgravity/base/blob/master/LICENSE)
