@@ -18,13 +18,14 @@ Pod::Spec.new do |s|
   s.name         = "Base"
   s.version      = "1.0.0"
   s.summary      = "Just base things"
-
+  s.swift_version = "4.2"
+  
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
   #   * Try to keep it short, snappy and to the point.
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
-  s.description  = "iOS Base Project written in Swift"
+  s.description  = "Just base things"
 
   s.homepage     = "https://markg.in"
   # s.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
@@ -63,10 +64,10 @@ Pod::Spec.new do |s|
   #
 
   # s.platform     = :ios
-  # s.platform     = :ios, "5.0"
+  s.platform     = :ios
 
   #  When using multiple platforms
-  # s.ios.deployment_target = "5.0"
+  s.ios.deployment_target = "9.0"
   # s.osx.deployment_target = "10.7"
   # s.watchos.deployment_target = "2.0"
   # s.tvos.deployment_target = "9.0"
@@ -130,14 +131,12 @@ Pod::Spec.new do |s|
   # s.requires_arc = true
 
   # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
-  s.dependency "Alamofire"
-  s.dependency "AlamofireImage"
-  s.dependency "SwiftyJSON"
-  s.dependency "ObjectMapper"
-  s.dependency "RxSwift"
-  s.dependency "RxCocoa"
-  s.dependency "PureLayout"
-  s.dependency "Device"
-  s.dependency "PopupKit"
-
+  s.dependency "Alamofire", "~> 4.7"
+  s.dependency "SwiftyJSON", "~> 4.2"
+  s.dependency "ObjectMapper", "~> 3.3"
+  s.dependency "RxSwift", "~> 4.0"
+  s.dependency "RxCocoa", "~> 4.3"
+  s.dependency "PureLayout", "~> 3.1"
+  s.dependency "Device", "~> 3.1"
+  s.dependency "PopupKit", "~> 3.1"
 end
