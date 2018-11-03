@@ -1,0 +1,50 @@
+PODS:
+  - Alamofire (4.7.3)
+  - AlamofireImage (3.4.1):
+    - Alamofire (~> 4.7)
+  - Device (3.1.2)
+  - ObjectMapper (3.3.0)
+  - PopupKit (3.1.1)
+  - PureLayout (3.1.2)
+  - RxCocoa (4.3.1):
+    - RxSwift (~> 4.0)
+  - RxSwift (4.3.1)
+  - SwiftyJSON (4.2.0)
+
+DEPENDENCIES:
+  - Alamofire
+  - AlamofireImage
+  - Device
+  - ObjectMapper
+  - PopupKit
+  - PureLayout
+  - RxCocoa
+  - RxSwift
+  - SwiftyJSON
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - AlamofireImage
+    - Device
+    - ObjectMapper
+    - PopupKit
+    - PureLayout
+    - RxCocoa
+    - RxSwift
+    - SwiftyJSON
+
+SPEC CHECKSUMS:
+  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
+  AlamofireImage: 78d67ccbb763d87ba44b21583d2153500a195630
+  Device: 62242076214c30fb5760174b3601cefafa70a481
+  ObjectMapper: b612bf8c8e99c4dc0bb6013a51f7c27966ed5da9
+  PopupKit: e362ed92148d831a9c38a2bc7a25893e46d64c54
+  PureLayout: 4634d0b61e3b5021166e8ec7c18e9e0ca0720c8b
+  RxCocoa: 78763c7b07d02455598d9fc3c1ad091a28b73635
+  RxSwift: fe0fd770a43acdb7d0a53da411c9b892e69bb6e4
+  SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
+
+PODFILE CHECKSUM: 4502113328f7874a79e8aa0e4485b6c007b6d7ae
+
+COCOAPODS: 1.5.2

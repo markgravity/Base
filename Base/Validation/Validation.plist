@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>confirmed</key>
+	<dict>
+		<key>numeric</key>
+		<string>%@ confirmation does not match.</string>
+		<key>string</key>
+		<string>%@ confirmation does not match.</string>
+	</dict>
+	<key>min</key>
+	<dict>
+		<key>numeric</key>
+		<string>:%@ must be at least %@.</string>
+		<key>string</key>
+		<string>%@ may not be greater than %@ characters.</string>
+	</dict>
+	<key>required</key>
+	<dict>
+		<key>other</key>
+		<string>%@ is required</string>
+		<key>array</key>
+		<string>%@ is required at least one item</string>
+		<key>string</key>
+		<string>%@ is required</string>
+		<key>numeric</key>
+		<string>%@ is required</string>
+	</dict>
+</dict>
+</plist>

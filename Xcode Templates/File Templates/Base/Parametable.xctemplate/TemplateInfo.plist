@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Kind</key>
+	<string>Xcode.IDEFoundation.TextSubstitutionFileTemplateKind</string>
+	<key>Description</key>
+	<string>A parametable.</string>
+	<key>Summary</key>
+	<string>A parametable</string>
+	<key>SortOrder</key>
+	<string>2</string>
+	<key>DefaultCompletionName</key>
+	<string>MyParametable</string>
+	<key>Platforms</key>
+	<array>
+		<string>com.apple.platform.iphoneos</string>
+	</array>
+	<key>Options</key>
+	<array>
+		<dict>
+			<key>Identifier</key>
+			<string>productName</string>
+			<key>Required</key>
+			<true/>
+			<key>Name</key>
+			<string>Name:</string>
+			<key>Description</key>
+			<string>The name of the parametable to create</string>
+			<key>Type</key>
+			<string>text</string>
+			<key>Default</key>
+			<string>Parameter</string>
+			<key>NotPersisted</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Identifier</key>
+			<string>cocoaTouchSubclass</string>
+			<key>Required</key>
+			<string>YES</string>
+			<key>Name</key>
+			<string>Type:</string>
+			<key>Description</key>
+			<string>Type of responsable</string>
+			<key>Type</key>
+			<string>popup</string>
+			<key>Default</key>
+			<string>Struct</string>
+			<key>Values</key>
+			<array>
+				<string>Struct</string>
+				<string>Class</string>
+			</array>
+			<key>Suffixes</key>
+			<dict>
+				<key>Struct</key>
+				<string>Paremeter</string>
+				<key>Class</key>
+				<string>Paremeter</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>
