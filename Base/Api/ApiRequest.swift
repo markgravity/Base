@@ -11,6 +11,7 @@ import RxSwift
 
 public class ApiRequest<T:Responsable> {
     public typealias Completion = (_ info:T?, _ error:Error?)->()
+    public typealias VoidCompletion = (_ error:Error?)->()
     public typealias Handler = (_ isVoid: Bool, _ completion:@escaping Completion)-> ()
     
     fileprivate var handler: Handler!
@@ -64,6 +65,12 @@ public class ApiRequest<T:Responsable> {
     public func response(_ completion: Completion? = nil) {
         handler(false, { info, error in
             completion?(info, error)
+        })
+    }
+    
+    public func voidResponse(_ completion: VoidCompletion? = nil) {
+        handler(true, { info, error in
+            completion?(error)
         })
     }
 }
