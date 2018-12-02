@@ -67,6 +67,11 @@
 		2DD13776218318570063ACF4 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD13775218318570063ACF4 /* UIView.swift */; };
 		2DD1377A218319850063ACF4 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD13779218319850063ACF4 /* Date.swift */; };
 		2DD1377D218319CE0063ACF4 /* TimestampTranform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1377C218319CE0063ACF4 /* TimestampTranform.swift */; };
+		2DD75A4921AD255C0057E349 /* ObservableType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD75A4821AD255C0057E349 /* ObservableType.swift */; };
+		2DD75A4B21AD29940057E349 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD75A4A21AD29940057E349 /* Functions.swift */; };
+		2DD75A4D21AD2C400057E349 /* ApiObservableType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD75A4C21AD2C400057E349 /* ApiObservableType.swift */; };
+		2DD75A4F21AD3DCB0057E349 /* UIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD75A4E21AD3DCB0057E349 /* UIWindow.swift */; };
+		2DE89BE021A518A8004F3DB4 /* NSLayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE89BDF21A518A8004F3DB4 /* NSLayoutConstraint.swift */; };
 		6E8F4653F0D45AF965A37B4D /* Pods_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97BB36570DF83D777E816121 /* Pods_Example.framework */; };
 		D87405565173E02533C2D79B /* Pods_BaseTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CA653A8B01011803721D301 /* Pods_BaseTests.framework */; };
 		DC0D923E2481D5D57057FB5C /* Pods_Base.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F42AE9591597BB678CC346F6 /* Pods_Base.framework */; };
@@ -188,6 +193,11 @@
 		2DD13775218318570063ACF4 /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		2DD13779218319850063ACF4 /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		2DD1377C218319CE0063ACF4 /* TimestampTranform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimestampTranform.swift; sourceTree = "<group>"; };
+		2DD75A4821AD255C0057E349 /* ObservableType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableType.swift; sourceTree = "<group>"; };
+		2DD75A4A21AD29940057E349 /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
+		2DD75A4C21AD2C400057E349 /* ApiObservableType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiObservableType.swift; sourceTree = "<group>"; };
+		2DD75A4E21AD3DCB0057E349 /* UIWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIWindow.swift; sourceTree = "<group>"; };
+		2DE89BDF21A518A8004F3DB4 /* NSLayoutConstraint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSLayoutConstraint.swift; sourceTree = "<group>"; };
 		3CA653A8B01011803721D301 /* Pods_BaseTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BaseTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D5EEAA4F47FFD5EB6279FA1 /* Pods-BaseTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BaseTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BaseTests/Pods-BaseTests.release.xcconfig"; sourceTree = "<group>"; };
 		835A61F866FE218234CD0CE3 /* Pods-Base.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Base.release.xcconfig"; path = "Pods/Target Support Files/Pods-Base/Pods-Base.release.xcconfig"; sourceTree = "<group>"; };
@@ -334,6 +344,7 @@
 		2DD136FD2182169B0063ACF4 /* Api */ = {
 			isa = PBXGroup;
 			children = (
+				2DD75A4721AD254E0057E349 /* Extensions */,
 				2DD1370B218216E00063ACF4 /* Apiable.swift */,
 				2DD1371E21821DB60063ACF4 /* ApiRequest.swift */,
 				2DD1372021821DD50063ACF4 /* ApiListRequest.swift */,
@@ -375,6 +386,9 @@
 				2DD137642182D5250063ACF4 /* UICollectionView.swift */,
 				2DD1371A21821B830063ACF4 /* Dictionary.swift */,
 				2DD137682182ECAB0063ACF4 /* Array.swift */,
+				2DE89BDF21A518A8004F3DB4 /* NSLayoutConstraint.swift */,
+				2DD75A4821AD255C0057E349 /* ObservableType.swift */,
+				2DD75A4E21AD3DCB0057E349 /* UIWindow.swift */,
 			);
 			path = Extenstions;
 			sourceTree = "<group>";
@@ -430,6 +444,7 @@
 			children = (
 				2DD1377B218319B10063ACF4 /* Transforms */,
 				2DD1376C2183120E0063ACF4 /* GroupComparable.swift */,
+				2DD75A4A21AD29940057E349 /* Functions.swift */,
 			);
 			path = Misc;
 			sourceTree = "<group>";
@@ -441,6 +456,14 @@
 				2DD1377C218319CE0063ACF4 /* TimestampTranform.swift */,
 			);
 			path = Transforms;
+			sourceTree = "<group>";
+		};
+		2DD75A4721AD254E0057E349 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				2DD75A4C21AD2C400057E349 /* ApiObservableType.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		D16F65CA7080005031DB2BC6 /* Frameworks */ = {
@@ -707,6 +730,7 @@
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/Device/Device.framework",
+				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -719,6 +743,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Device.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -753,6 +778,7 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
 				"${BUILT_PRODUCTS_DIR}/Device/Device.framework",
+				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
 				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
 				"${BUILT_PRODUCTS_DIR}/PopupKit/PopupKit.framework",
 				"${BUILT_PRODUCTS_DIR}/PureLayout/PureLayout.framework",
@@ -765,6 +791,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Device.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PopupKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PureLayout.framework",
@@ -805,13 +832,17 @@
 				2DD13706218216CD0063ACF4 /* ValidationMessage.swift in Sources */,
 				2DD1370A218216CD0063ACF4 /* ValidationExtenstion.swift in Sources */,
 				2DD13770218317E60063ACF4 /* UIViewController.swift in Sources */,
+				2DD75A4D21AD2C400057E349 /* ApiObservableType.swift in Sources */,
 				2D3A78E2218324760048A192 /* UINib.swift in Sources */,
+				2DE89BE021A518A8004F3DB4 /* NSLayoutConstraint.swift in Sources */,
 				2DD13710218216F80063ACF4 /* Responsable.swift in Sources */,
+				2DD75A4921AD255C0057E349 /* ObservableType.swift in Sources */,
 				2DD13718218218630063ACF4 /* Error.swift in Sources */,
 				2DD1372121821DD50063ACF4 /* ApiListRequest.swift in Sources */,
 				2DD1370E218216E10063ACF4 /* Parametable.swift in Sources */,
 				2DD13774218318450063ACF4 /* CALayer.swift in Sources */,
 				2DD13705218216CD0063ACF4 /* ValidationRule.swift in Sources */,
+				2DD75A4B21AD29940057E349 /* Functions.swift in Sources */,
 				2DD1375E2182D1290063ACF4 /* UITableView.swift in Sources */,
 				2DD13776218318570063ACF4 /* UIView.swift in Sources */,
 				2DD1370D218216E10063ACF4 /* Apiable.swift in Sources */,
@@ -840,6 +871,7 @@
 				2DD1371D21821C3E0063ACF4 /* ApiErrorCode.swift in Sources */,
 				2DD137692182ECAB0063ACF4 /* Array.swift in Sources */,
 				2DD1377A218319850063ACF4 /* Date.swift in Sources */,
+				2DD75A4F21AD3DCB0057E349 /* UIWindow.swift in Sources */,
 				2DD1375A2182CFC00063ACF4 /* HasViewModel.swift in Sources */,
 				2DD1371F21821DB60063ACF4 /* ApiRequest.swift in Sources */,
 				2D86E15E2188131D009FEB62 /* Translatable.swift in Sources */,

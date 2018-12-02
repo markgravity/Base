@@ -36,7 +36,10 @@ public extension Apiable {
         // Validation
         let errorBag = parameter?.validate()
         guard errorBag == nil else {
-            handler = { $1(nil, errorBag?.first) }
+            handler = {
+                $1(nil, errorBag?.first)
+                return nil
+            }
             return ApiRequest<ResponsableType>.init(handler: handler)
         }
         
@@ -53,19 +56,39 @@ public extension Apiable {
                     return
                 }
                 
-                guard response != nil, let data = response!["data"] as? [String:Any] else {
-                    guard isVoid else {
-                        let error = NSError(code: .apiWrongStructure, description: "Wrong response structure".localized())
-                        completion(nil, error)
+                let wrongStructureError = NSError(code: .apiWrongStructure, description: "Wrong response structure".localized())
+                guard response == nil
+                        && isVoid else {
+                       
+                    // Response must not nil
+                    guard let response = response else {
+                        completion(nil, wrongStructureError)
                         return
                     }
                     
-                    completion(nil, nil)
+                    // Prefer get data inside `response`
+                    var data = response
+                    if let tmp = response["data"] as? [String:Any] {
+                        data = tmp
+                    }
+                    
+                    // Data have to be mapped
+                    guard let info = ResponsableType.init(JSON:data) else {
+                        completion(nil, wrongStructureError)
+                        return
+                    }
+                        
+                    // Success
+                    completion(info, nil)
                     return
                 }
-                let info = ResponsableType.init(JSON:data)
-                completion(info!, nil)
+                
+                completion(nil, nil)
+                return
+                
             }
+            
+            return dataRequest
         }
         
         return ApiRequest<ResponsableType>.init(handler: handler)
@@ -77,7 +100,10 @@ public extension Apiable {
         // Validation
         let errorBag = parameter?.validate()
         guard errorBag == nil else {
-            handler = { $0(nil, errorBag?.first) }
+            handler = {
+                $0(nil, errorBag?.first)
+                return nil
+            }
             return ApiListRequest<ResponsableType>.init(handler: handler)
         }
         
@@ -104,6 +130,8 @@ public extension Apiable {
                 let info = ResponseList<ResponsableType>.init(JSON:response!)
                 completion(info!, nil)
             }
+            
+            return dataRequest
         }
         
         return ApiListRequest<ResponsableType>.init(handler: handler)

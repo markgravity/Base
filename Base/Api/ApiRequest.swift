@@ -8,11 +8,12 @@
 
 import UIKit
 import RxSwift
+import Alamofire
 
 public class ApiRequest<T:Responsable> {
     public typealias Completion = (_ info:T?, _ error:Error?)->()
     public typealias VoidCompletion = (_ error:Error?)->()
-    public typealias Handler = (_ isVoid: Bool, _ completion:@escaping Completion)-> ()
+    public typealias Handler = (_ isVoid: Bool, _ completion:@escaping Completion)-> (DataRequest?)
     
     fileprivate var handler: Handler!
     
@@ -26,7 +27,7 @@ public class ApiRequest<T:Responsable> {
         self.handler = handler
         
         self.observable = Observable.create { observer in
-            handler (false) { info, error in
+            let dataRequest = handler (false) { info, error in
                 guard error == nil else {
                     observer.onError(error!)
                     return
@@ -36,11 +37,13 @@ public class ApiRequest<T:Responsable> {
                 observer.onCompleted()
             }
             
-            return Disposables.create()
+            return Disposables.create {
+                dataRequest?.cancel()
+            }
         }
         
         self.voidObservable = Observable.create { observer in
-            handler (true) { info, error in
+            let dataRequest = handler (true) { info, error in
                 guard error == nil else {
                     observer.onError(error!)
                     return
@@ -50,7 +53,9 @@ public class ApiRequest<T:Responsable> {
                 observer.onCompleted()
             }
             
-            return Disposables.create()
+            return Disposables.create {
+                dataRequest?.cancel()
+            }
         }
     }
     
@@ -63,13 +68,13 @@ public class ApiRequest<T:Responsable> {
     }
     
     public func response(_ completion: Completion? = nil) {
-        handler(false, { info, error in
+        _ = handler(false, { info, error in
             completion?(info, error)
         })
     }
     
     public func voidResponse(_ completion: VoidCompletion? = nil) {
-        handler(true, { info, error in
+        _ = handler(true, { info, error in
             completion?(error)
         })
     }

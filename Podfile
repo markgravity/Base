@@ -18,6 +18,7 @@ target 'Base' do
   pod 'PureLayout'
   pod 'PopupKit'
   pod 'Device'
+  pod 'NVActivityIndicatorView'
   
   target 'BaseTests' do
     inherit! :search_paths

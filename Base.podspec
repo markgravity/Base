@@ -139,4 +139,5 @@ Pod::Spec.new do |s|
   s.dependency "PureLayout", "~> 3.1"
   s.dependency "Device", "~> 3.1"
   s.dependency "PopupKit", "~> 3.1"
+  s.dependency "NVActivityIndicatorView"
 end

@@ -6,9 +6,7 @@ import ObjectMapper
 class ___FILEBASENAMEASIDENTIFIER___: Responsable {
     static var endPoint: String
     
-    required init?(map: Map) {
-        <#code#>
-    }
+    required init?(map: Map) {}
     
     func mapping(map: Map) {
         <#code#>

@@ -17,25 +17,23 @@ class ___FILEBASENAMEASIDENTIFIER___: ___VARIABLE_cocoaTouchSubclass___ {
         setup()
         binds()
     }
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
 }
 
-// MARK: - HasViewModel
+// Navigation
+extension ___FILEBASENAMEASIDENTIFIER___ {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+    }
+}
+
+// HasViewModel
 extension ___FILEBASENAMEASIDENTIFIER___: HasViewModel {
     func setup() {
         
     }
     
-    func binds {
+    func binds() {
         
     }
 }

@@ -8,10 +8,11 @@
 
 import UIKit
 import RxSwift
+import Alamofire
 
 public class ApiListRequest<T:Responsable> {
     public typealias Completion = (_ list:ResponseList<T>?, _ error:Error?)->()
-    public typealias Handler = (_ completion:@escaping Completion)-> ()
+    public typealias Handler = (_ completion:@escaping Completion)-> (DataRequest?)
     
     fileprivate var handler: Handler!
     fileprivate var observable: Observable<ResponseList<T>>!
@@ -23,7 +24,7 @@ public class ApiListRequest<T:Responsable> {
         self.handler = handler
         
         self.observable = Observable.create { observer in
-            handler { info, error in
+            let dataRequest = handler { info, error in
                 guard error == nil else {
                     observer.onError(error!)
                     return
@@ -33,7 +34,9 @@ public class ApiListRequest<T:Responsable> {
                 observer.onCompleted()
             }
             
-            return Disposables.create()
+            return Disposables.create {
+                dataRequest?.cancel()
+            }
         }
     }
     
@@ -42,7 +45,7 @@ public class ApiListRequest<T:Responsable> {
     }
     
     public func response(_ completion: Completion? = nil) {
-        handler { list, error in
+        _ = handler { list, error in
             completion?(list, error)
         }
     }

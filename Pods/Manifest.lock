@@ -3,6 +3,9 @@ PODS:
   - AlamofireImage (3.4.1):
     - Alamofire (~> 4.7)
   - Device (3.1.2)
+  - NVActivityIndicatorView (4.4.0):
+    - NVActivityIndicatorView/Presenter (= 4.4.0)
+  - NVActivityIndicatorView/Presenter (4.4.0)
   - ObjectMapper (3.3.0)
   - PopupKit (3.1.1)
   - PureLayout (3.1.2)
@@ -15,6 +18,7 @@ DEPENDENCIES:
   - Alamofire
   - AlamofireImage
   - Device
+  - NVActivityIndicatorView
   - ObjectMapper
   - PopupKit
   - PureLayout
@@ -27,6 +31,7 @@ SPEC REPOS:
     - Alamofire
     - AlamofireImage
     - Device
+    - NVActivityIndicatorView
     - ObjectMapper
     - PopupKit
     - PureLayout
@@ -38,6 +43,7 @@ SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
   AlamofireImage: 78d67ccbb763d87ba44b21583d2153500a195630
   Device: 62242076214c30fb5760174b3601cefafa70a481
+  NVActivityIndicatorView: ec7440a57af2450319d3a4181cca7da6fc127064
   ObjectMapper: b612bf8c8e99c4dc0bb6013a51f7c27966ed5da9
   PopupKit: e362ed92148d831a9c38a2bc7a25893e46d64c54
   PureLayout: 4634d0b61e3b5021166e8ec7c18e9e0ca0720c8b
@@ -45,6 +51,6 @@ SPEC CHECKSUMS:
   RxSwift: fe0fd770a43acdb7d0a53da411c9b892e69bb6e4
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
 
-PODFILE CHECKSUM: b626b3af516b6dcbb885d210b24149aa6ca9cb47
+PODFILE CHECKSUM: 26e31772f4776b3ace09bed4ed06c4ab0954c235
 
 COCOAPODS: 1.5.2

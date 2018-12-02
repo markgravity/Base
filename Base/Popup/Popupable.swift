@@ -9,9 +9,20 @@
 import UIKit
 import PopupKit
 
+public typealias PopupShowType = PopupView.ShowType
+public typealias PopupDismissType = PopupView.DismissType
+public typealias PopupLayoutHorizontal = PopupView.HorizontalLayout
+public typealias PopupLayoutVertical = PopupView.VerticalLayout
+
 public enum PopupConfigKey: Int {
-    case dimmedMaskAlpha, shouldDismissOnBackgroundTouch
+    case dimmedMaskAlpha,
+    shouldDismissOnBackgroundTouch,
+    showType,
+    dismissType,
+    layoutHorizontal,
+    layoutVertical
 }
+
 
 public protocol Popupable : NSObjectProtocol {
     func show(controller: UIViewController?, interval: TimeInterval?, configs: [PopupConfigKey:Any]?)
@@ -22,8 +33,8 @@ public protocol Popupable : NSObjectProtocol {
 }
 
 public extension Popupable where Self:UIView {
-    fileprivate var popup: PopupView {
-        return superview?.superview as! PopupView
+    fileprivate var popup: PopupView? {
+        return superview?.superview as? PopupView
     }
     
     static func initialView(verticalMargin: CGFloat = BaseConfigure.PopupVerticalMargin)-> Self {
@@ -54,7 +65,8 @@ public extension Popupable where Self:UIView {
     }
     
     func show(controller:UIViewController? = nil, interval: TimeInterval? = nil, configs: [PopupConfigKey:Any]? = nil) {
-        let popup = PopupView.init(contentView: self)
+        let popup = PopupView(contentView: self)
+        var layout = PopupView.Layout(horizontal: .center, vertical: .center)
         
         // Configs
         if let configs = configs {
@@ -65,6 +77,18 @@ public extension Popupable where Self:UIView {
                     
                 case .shouldDismissOnBackgroundTouch:
                     popup.shouldDismissOnBackgroundTouch = value as! Bool
+                    
+                case .dismissType:
+                    popup.dismissType = value as! PopupDismissType
+                    
+                case .showType:
+                    popup.showType = value as! PopupShowType
+                    
+                case .layoutHorizontal:
+                    layout.horizontal = value as! PopupLayoutHorizontal
+                    
+                case .layoutVertical:
+                    layout.vertical = value as! PopupLayoutVertical
                 }
             }
         }
@@ -77,15 +101,15 @@ public extension Popupable where Self:UIView {
         containerView.addSubview(popup)
         
         guard let interval = interval else {
-            popup.show()
+            popup.show(with: layout)
             return
         }
         
-        popup.show(with: interval)
+        popup.show(with: layout, duration: interval)
     }
     
     func dismiss() {
-        popup.dismiss(animated: true)
+        popup?.dismiss(animated: true)
     }
     
     func setup() {}

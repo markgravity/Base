@@ -13,4 +13,5 @@ public class BaseConfigure: NSObject {
     public static var ValidationMessages : [String:Any]?
     public static var ValidationURL : URL?
     public static var PopupVerticalMargin : CGFloat = 20
+    public static var AlertClosure : ((_ title: String?, _ message: String, _ handler: Handler?)-> ())?
 }
