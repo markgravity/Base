@@ -16,8 +16,7 @@ public extension NSLayoutConstraint {
         }
         
         set {
-            if Device.size() == .screen5_5Inch
-                || Device.size() == .screen5_8Inch
+            if Device.size() == .screen5_8Inch
                 || Device.size() == .screen6_1Inch
                 || Device.size() == .screen6_5Inch {
                 constant = newValue
