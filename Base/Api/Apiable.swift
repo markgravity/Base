@@ -21,7 +21,7 @@ public protocol Apiable {
     
     static func createApiList(baseUrl: String, endPoint: String, method: HTTPMethod, parameter: Parametable?, token:String?)-> ApiListRequest<ResponsableType>
     
-    static func shouldProccess(response:[String:Any]?, error: Error?)-> Bool
+    static func shouldProccess(response:[String:Any]?, error: Error?)-> (process:Bool, retry:Bool, token: String?)
     
     static func createRequest(baseUrl:String, endPoint:String, method:HTTPMethod, parameters:[String:Any]?, token:String?)
         -> DataRequest
@@ -47,10 +47,7 @@ public extension Apiable {
         // Request handler
         handler = { isVoid, completion in
             let dataRequest = createRequest(baseUrl: baseUrl, endPoint: endPoint, method: method, parameters: parameter?.toJSON(), token: token)
-            
-            dataRequest.responseJSON { (responseObject) in
-                let (response, error) = transformResponseObject(responseObject)
-                guard shouldProccess(response: response, error: error) else { return }
+            let responseJSONHandler : ((_ response:[String:Any]?, _ error:Error?) -> Void) = { response, error  in
                 guard error == nil else {
                     completion(nil, error!)
                     return
@@ -58,33 +55,62 @@ public extension Apiable {
                 
                 let wrongStructureError = NSError(code: .apiWrongStructure, description: "Wrong response structure".localized())
                 guard response == nil
-                        && isVoid else {
-                       
-                    // Response must not nil
-                    guard let response = response else {
-                        completion(nil, wrongStructureError)
-                        return
-                    }
-                    
-                    // Prefer get data inside `response`
-                    var data = response
-                    if let tmp = response["data"] as? [String:Any] {
-                        data = tmp
-                    }
-                    
-                    // Data have to be mapped
-                    guard let info = ResponsableType.init(JSON:data) else {
-                        completion(nil, wrongStructureError)
-                        return
-                    }
+                    && isVoid else {
                         
-                    // Success
-                    completion(info, nil)
-                    return
+                        // Response must not nil
+                        guard let response = response else {
+                            completion(nil, wrongStructureError)
+                            return
+                        }
+                        
+                        // Prefer get data inside `response`
+                        var data = response
+                        if let tmp = response["data"] as? [String:Any] {
+                            data = tmp
+                        }
+                        
+                        // Data have to be mapped
+                        guard let info = ResponsableType.init(JSON:data) else {
+                            completion(nil, wrongStructureError)
+                            return
+                        }
+                        
+                        // Success
+                        completion(info, nil)
+                        return
                 }
                 
                 completion(nil, nil)
                 return
+            }
+            
+            dataRequest.responseJSON { (responseObject) in
+                
+                DispatchQueue.global().async {
+                    let (response, error) = transformResponseObject(responseObject)
+                    let (process, retry, token) = shouldProccess(response: response, error: error)
+                    guard process else {
+                        if retry {
+                            let dataRequest = createRequest(baseUrl: baseUrl, endPoint: endPoint, method: method, parameters: parameter?.toJSON(), token: token)
+                            dataRequest.responseJSON { (responseObject) in
+                                let (response, error) = transformResponseObject(responseObject)
+                                let (process, _, _) = shouldProccess(response: response, error: error)
+                                guard process else { return }
+                                
+                                
+                                DispatchQueue.main.async {
+                                    responseJSONHandler(response, error)
+                                }
+                            }
+                        }
+                        
+                        return
+                    }
+                    
+                    DispatchQueue.main.async {
+                        responseJSONHandler(response, error)
+                    }
+                }
                 
             }
             
@@ -111,10 +137,7 @@ public extension Apiable {
         // Request handler
         handler = { completion in
             let dataRequest = createRequest(baseUrl: baseUrl, endPoint: endPoint, method: method, parameters: parameter?.toJSON(), token: token)
-            
-            dataRequest.responseJSON { (responseObject) in
-                let (response, error) = transformResponseObject(responseObject)
-                guard shouldProccess(response: response, error: error) else { return }
+            let responseJSONHandler : ((_ response:[String:Any]?, _ error:Error?) -> Void) = { response, error  in
                 guard error == nil else {
                     completion(nil, error!)
                     return
@@ -131,11 +154,42 @@ public extension Apiable {
                 completion(info!, nil)
             }
             
+            dataRequest.responseJSON { (responseObject) in
+                DispatchQueue.global().async {
+                    let (response, error) = transformResponseObject(responseObject)
+                    let (process, retry, token) = shouldProccess(response: response, error: error)
+                    guard process else {
+                        if retry {
+                            let dataRequest = createRequest(baseUrl: baseUrl, endPoint: endPoint, method: method, parameters: parameter?.toJSON(), token: token)
+                            dataRequest.responseJSON { (responseObject) in
+                                let (response, error) = transformResponseObject(responseObject)
+                                let (process, _, _) = shouldProccess(response: response, error: error)
+                                guard process else { return }
+                                
+                                
+                                DispatchQueue.main.async {
+                                    responseJSONHandler(response, error)
+                                }
+                            }
+                        }
+                        
+                        return
+                    }
+                    
+                    DispatchQueue.main.async {
+                        responseJSONHandler(response, error)
+                    }
+                }
+                
+            }
+            
             return dataRequest
         }
         
         return ApiListRequest<ResponsableType>.init(handler: handler)
     }
     
-    public static func shouldProccess(response:[String:Any]?, error: Error?)-> Bool { return true }
+    public static func shouldProccess(response:[String:Any]?, error: Error?)-> (process:Bool, retry:Bool, token: String?) {
+        return (process:true, retry:false, token:nil)
+    }
 }

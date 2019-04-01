@@ -57,8 +57,10 @@ public extension AuthInterface {
     
     mutating func update(user:Self.UserModel){
         let token = apiToken
+        let refreshToken = self.user?.refreshToken
         self.user = user
         self.user!.apiToken = token
+        self.user!.refreshToken = refreshToken
         
         UserDefaults.standard.set(user.toJSON(), forKey: "authenticated_user")
         UserDefaults.standard.synchronize()

@@ -12,4 +12,5 @@ import ObjectMapper
 public protocol Authenticatable {
     var id: Int? { get set }
     var apiToken: String? { get set }
+    var refreshToken: String? { get set }
 }

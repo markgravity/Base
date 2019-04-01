@@ -17,8 +17,11 @@ public enum ValidationRule: RawRepresentable, Hashable {
         case .min:
             return 1
             
-        case .confirmed:
+        case .max:
             return 2
+            
+        case .confirmed:
+            return 3
         }
         
         
@@ -31,6 +34,8 @@ public enum ValidationRule: RawRepresentable, Hashable {
             
         case .min:
             return "min"
+        case .max:
+            return "max"
             
         case .confirmed:
             return "confirmed"
@@ -44,6 +49,9 @@ public enum ValidationRule: RawRepresentable, Hashable {
         case "min":
             self = .min(0)
             
+        case "max":
+            self = .max(0)
+            
         case "confirmed":
             self = .confirmed("")
             
@@ -56,5 +64,6 @@ public enum ValidationRule: RawRepresentable, Hashable {
     
     case required
     case min(CGFloat)
+    case max(CGFloat)
     case confirmed(Any)
 }

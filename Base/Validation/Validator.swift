@@ -48,6 +48,9 @@ public class Validator {
             case .min(let min):
                 error = validateMinRule(value: value, min: min)
                 
+            case .max(let max):
+                error = validateMaxRule(value: value, max: max)
+                
             case .confirmed(let other):
                 error = validateConfirmedRule(value: value, otherValue: other as! T)
             }
@@ -102,9 +105,11 @@ public class Validator {
     }
     
     fileprivate func validateMinRule<T>(value:T, min:CGFloat)-> Error? {
+        guard !isEmpty(value: value) else { return nil }
+        
         let valueType = getValueType(value: value)
         let message = messageForRule(.min(min), valueType: valueType)
-        let errorInfo = NSError(code: .validation, description: message)
+        var errorInfo = NSError(code: .validation, description: message)
         
         var hasError = true
         switch valueType {
@@ -130,6 +135,45 @@ public class Validator {
             break
         }
     
+        guard !hasError else {
+            return errorInfo
+        }
+        
+        return nil
+    }
+    
+    fileprivate func validateMaxRule<T>(value:T, max:CGFloat)-> Error? {
+        guard !isEmpty(value: value) else { return nil }
+        
+        let valueType = getValueType(value: value)
+        let message = messageForRule(.max(max), valueType: valueType)
+        let errorInfo = NSError(code: .validation, description: message)
+        
+        var hasError = true
+        
+        switch valueType {
+        case .string:
+            hasError = (value as! String).count > Int(max)
+            
+        case .numeric:
+            
+            var numeric: CGFloat!
+            if value is Int {
+                numeric = CGFloat(value as! Int)
+            } else if value is Double {
+                numeric = CGFloat(value as! Double)
+            } else if value is Float {
+                numeric = CGFloat(value as! Float)
+            }
+            
+            hasError = numeric > max
+            
+        case .array:
+            hasError = (value as! Array<Any>).count > Int(max)
+        default:
+            break
+        }
+        
         guard !hasError else {
             return errorInfo
         }
@@ -192,7 +236,10 @@ public class Validator {
             return String.init(format: message, currentName)
             
         case .min(let min):
-            return String.init(format: message, currentName, "\(min)")
+            return String.init(format: message, currentName, valueType == .string ? "\(Int(min))" : "\(min)")
+            
+        case .max(let max):
+            return String.init(format: message, currentName, valueType == .string ? "\(Int(max))" : "\(max)")
             
         case .confirmed(_):
             return String.init(format: message, currentName)

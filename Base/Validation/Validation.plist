@@ -12,7 +12,14 @@
 	<key>min</key>
 	<dict>
 		<key>numeric</key>
-		<string>:%@ must be at least %@.</string>
+		<string>%@ must be at least %@.</string>
+		<key>string</key>
+		<string>%@ must be at least %@ characters.</string>
+	</dict>
+	<key>max</key>
+	<dict>
+		<key>numeric</key>
+		<string>%@ may not be greater than %@.</string>
 		<key>string</key>
 		<string>%@ may not be greater than %@ characters.</string>
 	</dict>
