@@ -10,13 +10,13 @@ import UIKit
 import RxSwift
 
 public extension UICollectionView {
-    public func dequeueReusableCell<T>(withType type:T.Type, indexPath:IndexPath) -> T? {
+    func dequeueReusableCell<T>(withType type:T.Type, indexPath:IndexPath) -> T? {
         let name = "\(T.self)"
         
         return dequeueReusableCell(withReuseIdentifier: name, for: indexPath) as? T
     }
     
-    public func dequeueReusableCell<T>(withType type:T.Type, indexPath:IndexPath) -> T? where T:HasDisposeBag {
+    func dequeueReusableCell<T>(withType type:T.Type, indexPath:IndexPath) -> T? where T:HasDisposeBag {
         let name = "\(T.self)"
         
         var cell = dequeueReusableCell(withReuseIdentifier: name, for: indexPath) as? T

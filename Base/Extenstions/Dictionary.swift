@@ -10,11 +10,11 @@ import UIKit
 
 public extension Dictionary {
     
-    public mutating func merge(with dictionary: [Dictionary.Key : Dictionary.Value]) {
+    mutating func merge(with dictionary: [Dictionary.Key : Dictionary.Value]) {
         dictionary.forEach { updateValue($1, forKey: $0) }
     }
     
-    public func merged(with dictionary: [Dictionary.Key : Dictionary.Value]) -> [Dictionary.Key : Dictionary.Value] {
+    func merged(with dictionary: [Dictionary.Key : Dictionary.Value]) -> [Dictionary.Key : Dictionary.Value] {
         var dict = self
         dict.merge(with: dictionary)
         return dict

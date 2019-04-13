@@ -9,10 +9,6 @@
 import UIKit
 
 public struct ValidationAttribute: Hashable {
-    public var hashValue: Int {
-        return name.hashValue ^ rule.hashValue
-    }
-    
     public var rule: ValidationRule
     public var name: String
     
@@ -20,6 +16,10 @@ public struct ValidationAttribute: Hashable {
         self.rule = rule
         self.name = name
         
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(name.hashValue ^ rule.hashValue)
     }
     
     public static func == (lhs: ValidationAttribute, rhs: ValidationAttribute) -> Bool {

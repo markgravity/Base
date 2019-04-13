@@ -9,7 +9,7 @@
 import UIKit
 
 public extension Date {
-    public init?(iso8601 string:String){
+    init?(iso8601 string:String){
         self.init()
         let formatter = DateFormatter()
         formatter.timeZone = TimeZone.init(abbreviation: "UTC")
@@ -23,7 +23,7 @@ public extension Date {
         self = date
     }
     
-    public init?(timestamp string:String){
+    init?(timestamp string:String){
         self.init()
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
@@ -35,7 +35,7 @@ public extension Date {
         self = date
     }
     
-    public func format(_ format:String)->String{
+    func format(_ format:String)->String{
         let formatter = DateFormatter()
         formatter.dateFormat = format
         

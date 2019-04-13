@@ -9,20 +9,20 @@
 import UIKit
 
 public extension UIViewController {
-    public func performSegue<T>(withType: T.Type, sender: Any?){
+    func performSegue<T>(withType: T.Type, sender: Any?){
         let name = "\(T.self)"
         
         performSegue(withIdentifier: name, sender: sender)
     }
     
-    public func performSegue<T>(withNavigationOf type: T.Type, sender: Any?){
+    func performSegue<T>(withNavigationOf type: T.Type, sender: Any?){
         var name = "\(T.self)"
         name = name.replacingOccurrences(of: "Controller", with: "NavigationController")
         
         performSegue(withIdentifier: name, sender: sender)
     }
     
-    public func attachDismissKeyboardOnTap() {
+    func attachDismissKeyboardOnTap() {
         let recognizer = UITapGestureRecognizer.init(target: self, action: #selector(dismissKeyboard))
         if let this = self as? UIGestureRecognizerDelegate {
             recognizer.delegate = this

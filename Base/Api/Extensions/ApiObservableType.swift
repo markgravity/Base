@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 
 public extension ObservableType where E:ResponsableList {
-    public func alsoBind(to items: BehaviorRelay<[Self.E.ItemType]>, isReset: Bool = false) -> Observable<E> {
+    func alsoBind(to items: BehaviorRelay<[Self.E.ItemType]>, isReset: Bool = false) -> Observable<E> {
         
         return self
             .do(onNext: {

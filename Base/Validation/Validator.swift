@@ -109,7 +109,7 @@ public class Validator {
         
         let valueType = getValueType(value: value)
         let message = messageForRule(.min(min), valueType: valueType)
-        var errorInfo = NSError(code: .validation, description: message)
+        let errorInfo = NSError(code: .validation, description: message)
         
         var hasError = true
         switch valueType {

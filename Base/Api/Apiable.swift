@@ -30,7 +30,7 @@ public protocol Apiable {
 }
 
 public extension Apiable {
-    public static func createApi(baseUrl: String, endPoint: String, method: HTTPMethod, parameter: Parametable? = nil, token:String? = nil)-> ApiRequest<ResponsableType> {
+    static func createApi(baseUrl: String, endPoint: String, method: HTTPMethod, parameter: Parametable? = nil, token:String? = nil)-> ApiRequest<ResponsableType> {
         var handler: ApiRequest<ResponsableType>.Handler!
         
         // Validation
@@ -120,7 +120,7 @@ public extension Apiable {
         return ApiRequest<ResponsableType>.init(handler: handler)
     }
     
-    public static func createApiList(baseUrl: String, endPoint: String, method: HTTPMethod, parameter: Parametable? = nil, token:String? = nil)-> ApiListRequest<ResponsableType> {
+    static func createApiList(baseUrl: String, endPoint: String, method: HTTPMethod, parameter: Parametable? = nil, token:String? = nil)-> ApiListRequest<ResponsableType> {
         var handler: ApiListRequest<ResponsableType>.Handler!
         
         // Validation
@@ -189,7 +189,7 @@ public extension Apiable {
         return ApiListRequest<ResponsableType>.init(handler: handler)
     }
     
-    public static func shouldProccess(response:[String:Any]?, error: Error?)-> (process:Bool, retry:Bool, token: String?) {
+    static func shouldProccess(response:[String:Any]?, error: Error?)-> (process:Bool, retry:Bool, token: String?) {
         return (process:true, retry:false, token:nil)
     }
 }

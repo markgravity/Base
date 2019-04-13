@@ -9,7 +9,7 @@
 import UIKit
 
 public extension Array {
-    public func modify(at index:Int, _ element:((_ e:Element)->Element))-> Array {
+    func modify(at index:Int, _ element:((_ e:Element)->Element))-> Array {
         let e = element(self[index])
         var a = self
         a[index] = e

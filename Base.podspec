@@ -131,13 +131,13 @@ Pod::Spec.new do |s|
   # s.requires_arc = true
 
   # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
-  s.dependency "Alamofire", "~> 4.7"
-  s.dependency "SwiftyJSON", "~> 4.2"
-  s.dependency "ObjectMapper", "~> 3.3"
-  s.dependency "RxSwift", "~> 4.0"
-  s.dependency "RxCocoa", "~> 4.3"
-  s.dependency "PureLayout", "~> 3.1"
-  s.dependency "Device", "~> 3.1"
-  s.dependency "PopupKit", "~> 3.1"
+  s.dependency "Alamofire"
+  s.dependency "SwiftyJSON"
+  s.dependency "ObjectMapper"
+  s.dependency "RxSwift"
+  s.dependency "RxCocoa"
+  s.dependency "PureLayout"
+  s.dependency "Device"
+  s.dependency "PopupKit"
   s.dependency "NVActivityIndicatorView"
 end

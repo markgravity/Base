@@ -9,7 +9,7 @@
 import UIKit
 
 public extension CALayer {
-    public func addShadow() {
+    func addShadow() {
 
         self.masksToBounds = false
         if cornerRadius != 0 {
@@ -17,7 +17,7 @@ public extension CALayer {
         }
     }
     
-    public func roundCorners(radius: CGFloat) {
+    func roundCorners(radius: CGFloat) {
         self.cornerRadius = radius
         if shadowOpacity != 0 {
             addShadowWithRoundedCorners()

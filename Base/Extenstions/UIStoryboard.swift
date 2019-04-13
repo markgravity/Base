@@ -9,12 +9,12 @@
 import UIKit
 
 public extension UIStoryboard {
-    public func instantiateViewController<T>( withType type:T.Type)-> T{
+    func instantiateViewController<T>( withType type:T.Type)-> T{
         let name = "\(T.self)".replacingOccurrences(of: ".Type", with: "")
         return instantiateViewController(withIdentifier:  name) as! T
     }
     
-    public func instantiateViewController<T>( withNavigationOf type:T.Type)-> UINavigationController{
+    func instantiateViewController<T>( withNavigationOf type:T.Type)-> UINavigationController{
         var name =  "\(T.self)".replacingOccurrences(of: ".Type", with: "")
         name = name.replacingOccurrences(of: "Controller", with: "NavigationController")
         return instantiateViewController(withIdentifier:  name) as! UINavigationController

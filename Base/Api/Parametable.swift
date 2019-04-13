@@ -22,18 +22,18 @@ public extension Parametable {
         self.init(JSON: [:])!
     }
     
-    public func validate()-> ErrorBag? {
+    func validate()-> ErrorBag? {
         let validator = Validator()
         validator.customMessages = messages()
         rules(validator: validator)
         return validator.errorBag.hasError ? validator.errorBag : nil
     }
     
-    public func rules(validator: Validator) {
+    func rules(validator: Validator) {
         
     }
     
-    public func messages()-> [ValidationAttribute:String]? {
+    func messages()-> [ValidationAttribute:String]? {
         return nil
     }
 }

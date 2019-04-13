@@ -54,7 +54,7 @@ public extension ObservableType {
 //
 //    }
     
-    public func alsoBind(to relay: RxCocoa.BehaviorRelay<Self.E>) -> Observable<E> {
+    func alsoBind(to relay: RxCocoa.BehaviorRelay<Self.E>) -> Observable<E> {
         
         return self
             .do(onNext: {

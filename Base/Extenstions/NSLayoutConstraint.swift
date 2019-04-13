@@ -10,7 +10,7 @@ import UIKit
 import Device
 
 public extension NSLayoutConstraint {
-    @IBInspectable public var iPhoneXConstant : CGFloat {
+    @IBInspectable var iPhoneXConstant : CGFloat {
         get {
             return constant
         }
@@ -24,7 +24,7 @@ public extension NSLayoutConstraint {
         }
     }
     
-    @IBInspectable public var iPhone5Constant : CGFloat {
+    @IBInspectable var iPhone5Constant : CGFloat {
         get {
             return constant
         }
@@ -36,7 +36,7 @@ public extension NSLayoutConstraint {
         }
     }
     
-    @IBInspectable public var iPhonePlusConstant : CGFloat {
+    @IBInspectable var iPhonePlusConstant : CGFloat {
         get {
             return constant
         }

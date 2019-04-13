@@ -9,7 +9,7 @@
 import UIKit
 
 public extension UINib {
-    public convenience init<T>(withType: T.Type, bundle: Bundle?){
+    convenience init<T>(withType: T.Type, bundle: Bundle?){
         let name = "\(T.self)"
         var bundle = bundle
         if bundle == nil {
