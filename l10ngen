@@ -1,0 +1,110 @@
+DARKGRAY='\e[3;30m'
+RED='\e[3;31m'    
+LIGHTRED='\e[3;31m'
+GREEN='\e[3;32m'    
+YELLOW='\e[3;33m'
+BLUE='\e[3;34m'    
+PURPLE='\e[3;35m'    
+LIGHTPURPLE='\3[1;35m'
+CYAN='\e[3;36m'    
+WHITE='\e[3;37m'
+SET='\e[0m'
+
+# swift function
+output_filename="Localizable.strings"
+keys=()
+lang_folders=()
+
+function swift() {
+    file=$1
+    lines=$(grep -oh '".*"\.l10n' $file 2>&1)
+
+    while read -r line; do
+        if ! [ -z "$line" ] ; then
+            parts=$(echo "$line" | grep -o "\"[a-zA-Z0-9 !@#\$%\^&\*()\.,-\+']*\"")
+
+            while read -r part; do
+                if [[ $line == *"$part.l10n"*  ]] ; then
+
+                    addKey "$part"
+                fi
+            done <<< "$parts"
+        fi
+        
+    done <<< "$lines"
+}
+
+function storyboard() {
+    lines=$(grep -o 'keyPath="l10n.*" value=".*"' $1 2>&1)
+    while read -r line; do
+        if ! [ -z "$line" ] ; then
+            # echo ">>>> $line"
+            parts=$(echo "$line" | grep -o "\"[a-zA-Z0-9 !@#\$%\^&\*()\.,-\+']*\"")
+
+            while read -r part; do
+                if [[ $line == *"value=$part"*  ]] ; then
+                   addKey "$part"
+                fi
+            done <<< "$parts"
+        fi
+        
+    done <<< "$lines"
+}
+
+function addKey() {
+    key=$1
+    if [[ ! " ${keys[@]} " =~ " $key " ]]; then
+        keys+=("$key")
+    fi
+}
+
+# Project Root Dir
+input=$1
+if [ -z "$input" ] ; then
+    echo "l10n: No such input '$input'"
+    exit 1;
+fi
+
+baseLang=$2
+# Read all swift & storyboard file
+files=$(find $input -type f -follow -print 2>&1)
+while read -r file; do
+
+    # Swift file
+    if [[ "${file}" =~ \.swift$ ]]; then
+        swift $file
+    elif [[ "${file}" =~ \.storyboard$ ]] || [[ "${file}" =~ \.xib$ ]]; then
+        storyboard $file
+    elif [[ "${file}" =~ \.lproj ]] && ! [[ "${file}" =~ Base\.lproj ]]; then
+        folder=$(echo "$file" | grep -o "[a-zA-z]*\.lproj")
+        lang_folders+=("$folder")
+    fi
+done <<< "$files"
+
+# Update content
+for key in "${keys[@]}"; do
+    key="${key//\\/\\\\}"
+    for folder in "${lang_folders[@]}"; do
+        path="$input/$folder/$output_filename"
+        touch "$path" 
+        content=$(cat $path 2>&1)
+        test=$(echo "$content" | grep -o "$key.[ \t]*=.[ \t]*\"")
+        if [ -z "$test" ] ; then
+            newline=$'\n'
+            if [[ "$content" =~ \n$ ]]; then
+                newline=""
+            fi
+
+            translatedText=$key
+            if [ -z "$baseLang" ] ; then
+                translatedText="\"\""
+            fi
+            echo $translatedText
+            content="$content$newline$key = $translatedText;"
+            echo "$content" > "$path"
+        fi
+    done
+done
+
+
+
