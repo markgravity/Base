@@ -66,7 +66,8 @@ public extension AuthInterface {
         UserDefaults.standard.synchronize()
     }
     
-    func logout(){
+    mutating func logout(){
+        self.user = nil
         UserDefaults.standard.removeObject(forKey: "authenticated_user")
         UserDefaults.standard.synchronize()
     }

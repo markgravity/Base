@@ -20,12 +20,14 @@ public enum PopupConfigKey: Int {
     showType,
     dismissType,
     layoutHorizontal,
-    layoutVertical
+    layoutVertical,
+    onDismiss
 }
 
 
 public protocol Popupable : NSObjectProtocol {
     func show(controller: UIViewController?, interval: TimeInterval?, configs: [PopupConfigKey:Any]?)
+//    func setOnDismiss(_ handler:@escaping (()->()))
     func dismiss()
     func setup()
     
@@ -45,6 +47,9 @@ public extension Popupable where Self:UIView {
         var frame = contentView.frame
         frame.size.width = UIScreen.main.bounds.width - (verticalMargin * 2)
         
+        // Max height
+        let maxHeight = UIScreen.main.bounds.height * 10 / 12
+        
         view.frame = frame
         view.backgroundColor = .clear
         view.addSubview(contentView)
@@ -53,8 +58,9 @@ public extension Popupable where Self:UIView {
         // Setup Autolayout
         view.translatesAutoresizingMaskIntoConstraints = false
         let constraints = [
-            NSLayoutConstraint.init(item: view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: contentView.frame.height),
-            NSLayoutConstraint.init(item: view, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: UIScreen.main.bounds.width - (verticalMargin * 2))
+            NSLayoutConstraint.init(item: view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: frame.height),
+            NSLayoutConstraint.init(item: view, attribute: .height, relatedBy: .lessThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: maxHeight),
+            NSLayoutConstraint.init(item: view, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: frame.width)
         ]
         constraints[0].priority = UILayoutPriority.init(649)
         NSLayoutConstraint.activate(constraints)
@@ -67,44 +73,53 @@ public extension Popupable where Self:UIView {
     func show(controller:UIViewController? = nil, interval: TimeInterval? = nil, configs: [PopupConfigKey:Any]? = nil) {
         let popup = PopupView(contentView: self)
         var layout = PopupView.Layout(horizontal: .center, vertical: .center)
-        
+
         // Configs
         if let configs = configs {
             for (key, value) in configs {
                 switch key {
                 case .dimmedMaskAlpha:
                     popup.dimmedMaskAlpha = value as! CGFloat
-                    
+
                 case .shouldDismissOnBackgroundTouch:
                     popup.shouldDismissOnBackgroundTouch = value as! Bool
-                    
+
                 case .dismissType:
                     popup.dismissType = value as! PopupDismissType
-                    
+
                 case .showType:
                     popup.showType = value as! PopupShowType
-                    
+
                 case .layoutHorizontal:
                     layout.horizontal = value as! PopupLayoutHorizontal
-                    
+
                 case .layoutVertical:
                     layout.vertical = value as! PopupLayoutVertical
+                    
+                case .onDismiss:
+                    popup.didFinishDismissingCompletion = value as! (()->())
                 }
             }
         }
-        
+
         // Add to container view
-        var containerView: UIView = UIApplication.shared.keyWindow!
+        var containerView: UIView!
         if let controller = controller {
             containerView = controller.view
+        } else {
+            // Prepare by adding to the top window.
+            containerView = UIApplication.shared.keyWindow!
+
         }
+        
         containerView.addSubview(popup)
+        containerView.bringSubviewToFront(popup)
         
         guard let interval = interval else {
             popup.show(with: layout)
             return
         }
-        
+
         popup.show(with: layout, duration: interval)
     }
     

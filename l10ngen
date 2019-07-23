@@ -21,9 +21,11 @@ function swift() {
 
     while read -r line; do
         if ! [ -z "$line" ] ; then
-            parts=$(echo "$line" | grep -o "\"[a-zA-Z0-9 !@#\$%\^&\*()\.,-\+']*\"")
+            line="${line//\\n/\\\\n}"
+            parts=$(echo $line | grep -o "\"[a-zA-Z0-9 \\n\!@#\$%\^&\*()\.,-\+:']*\"")
 
             while read -r part; do
+                part="${part//\\n/\\\\n}"
                 if [[ $line == *"$part.l10n"*  ]] ; then
 
                     addKey "$part"
@@ -35,13 +37,50 @@ function swift() {
 }
 
 function storyboard() {
-    lines=$(grep -o 'keyPath="l10n.*" value=".*"' $1 2>&1)
+    step=0
+    tmpKey=""
+    while read -r line; do
+        # No new line case
+        if [[ "$line" == "<userDefinedRuntimeAttribute type=\"string\" keyPath=\"l10nText\">" ]]; then
+            step=1
+
+        elif [ "$step" == 1 ] ; then
+            content="${line//<string key=\"value\">/}"
+            end=$(echo $content | grep -o '</string>' 2>&1)
+
+            # Found end tag
+            if ! [ -z "$end" ] ; then
+                step=0
+                content="${content//<\/string>/}"
+                addKey "\"$content\""
+            else
+                tmpKey=$content
+                step=2
+            fi
+        elif [ "$step" == 2 ] ; then
+            end=$(echo $line | grep -o '</string>' 2>&1)
+
+            # Found end tag
+            if ! [ -z "$end" ] ; then
+                step=0
+                content="${line//<\/string>/}"
+                addKey "\"$tmpKey\\\\n$content\""
+            else
+                tmpKey="$tmpKey\\\\n$line"
+            fi
+        fi
+    done <<< "`cat $1`"
+
+    # No newline
+    lines=$(grep -o '<userDefinedRuntimeAttribute type="string" keyPath="l10nText">\\r<string key="value">' $1 2>&1)
     while read -r line; do
         if ! [ -z "$line" ] ; then
-            # echo ">>>> $line"
-            parts=$(echo "$line" | grep -o "\"[a-zA-Z0-9 !@#\$%\^&\*()\.,-\+']*\"")
+        echo $line
+            line="${line//\\n/\\\\n}"
+            parts=$(echo "$line" | grep -o "\"[a-zA-Z0-9 \!@#\$%\^&\*()\.,-\+']*\"")
 
             while read -r part; do
+                part="${part//\\n/\\\\n}"
                 if [[ $line == *"value=$part"*  ]] ; then
                    addKey "$part"
                 fi
@@ -53,6 +92,7 @@ function storyboard() {
 
 function addKey() {
     key=$1
+    
     if [[ ! " ${keys[@]} " =~ " $key " ]]; then
         keys+=("$key")
     fi
@@ -76,19 +116,21 @@ while read -r file; do
     elif [[ "${file}" =~ \.storyboard$ ]] || [[ "${file}" =~ \.xib$ ]]; then
         storyboard $file
     elif [[ "${file}" =~ \.lproj ]] && ! [[ "${file}" =~ Base\.lproj ]]; then
-        folder=$(echo "$file" | grep -o "[a-zA-z]*\.lproj")
+        folder=$(echo "$file" | grep -o "[a-zA-z\-]*\.lproj")
         lang_folders+=("$folder")
     fi
 done <<< "$files"
 
 # Update content
-for key in "${keys[@]}"; do
-    key="${key//\\/\\\\}"
-    for folder in "${lang_folders[@]}"; do
-        path="$input/$folder/$output_filename"
-        touch "$path" 
-        content=$(cat $path 2>&1)
-        test=$(echo "$content" | grep -o "$key.[ \t]*=.[ \t]*\"")
+for folder in "${lang_folders[@]}"; do
+    path="$input/$folder/$output_filename"
+    touch "$path" 
+    newContent=""
+
+    for key in "${keys[@]}"; do
+        
+        # Check the key is already translated
+        test=$(grep "^$key" $path)
         if [ -z "$test" ] ; then
             newline=$'\n'
             if [[ "$content" =~ \n$ ]]; then
@@ -96,15 +138,16 @@ for key in "${keys[@]}"; do
             fi
 
             translatedText=$key
+
             if [ -z "$baseLang" ] ; then
                 translatedText="\"\""
             fi
-            echo $translatedText
-            content="$content$newline$key = $translatedText;"
-            echo "$content" > "$path"
+            newContent=$newContent$newline$key" = "$translatedText";";
         fi
-    done
+    done  
+    echo "$newContent" >> "$path" 
 done
+
 
 
 
