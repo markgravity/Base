@@ -10,12 +10,12 @@ import UIKit
 import RxSwift
 import Alamofire
 
-public class ApiListRequest<T:Responsable> {
-    public typealias Completion = (_ list:ResponseList<T>?, _ error:Error?)->()
-    public typealias Handler = (_ completion:@escaping Completion)-> (DataRequest?)
+public class ApiListRequest<T:ResponsableList> {
+    public typealias Completion = (_ list:T?, _ error:Error?)->()
+    public typealias Handler = (_ completion:@escaping Completion)-> Request?
     
     fileprivate var handler: Handler!
-    fileprivate var observable: Observable<ResponseList<T>>!
+    fileprivate var observable: Observable<T>!
     
     private init() {}
     
@@ -40,7 +40,7 @@ public class ApiListRequest<T:Responsable> {
         }
     }
     
-    public func asObservable()-> Observable<ResponseList<T>> {
+    public func asObservable()-> Observable<T> {
         return observable
     }
     

@@ -13,7 +13,7 @@ import Alamofire
 public class ApiRequest<T:Responsable> {
     public typealias Completion = (_ info:T?, _ error:Error?)->()
     public typealias VoidCompletion = (_ error:Error?)->()
-    public typealias Handler = (_ isVoid: Bool, _ completion:@escaping Completion)-> (DataRequest?)
+    public typealias Handler = (_ isVoid: Bool, _ completion:@escaping Completion)-> Request?
     
     fileprivate var handler: Handler!
     

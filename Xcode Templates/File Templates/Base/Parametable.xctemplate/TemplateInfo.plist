@@ -30,7 +30,7 @@
 			<key>Type</key>
 			<string>text</string>
 			<key>Default</key>
-			<string>Parameter</string>
+			<string>Parameters</string>
 			<key>NotPersisted</key>
 			<true/>
 		</dict>

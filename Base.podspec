@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "Base"
-  s.version      = "1.0.0"
+  s.version      = "1.1.0"
   s.summary      = "Just base things"
   s.swift_version = "5.0"
   
@@ -27,7 +27,7 @@ Pod::Spec.new do |s|
   #   * Finally, don't worry about the indent, CocoaPods strips it!
   s.description  = "Just base things"
 
-  s.homepage     = "https://markg.in"
+  s.homepage     = "https://markg.dev"
   # s.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
 
 

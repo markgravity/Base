@@ -12,29 +12,46 @@ import SwiftyJSON
 import RxSwift
 import ObjectMapper
 
-public protocol Apiable {
-    associatedtype ResponsableType: Responsable
-    typealias Completion = (_ response:[String:Any]?, _ error:Error?)->()
-    
-    static func createApi(baseUrl: String, endPoint: String, method: HTTPMethod, parameter: Parametable?, token:String?)
-        -> ApiRequest<ResponsableType>
-    
-    static func createApiList(baseUrl: String, endPoint: String, method: HTTPMethod, parameter: Parametable?, token:String?)-> ApiListRequest<ResponsableType>
-    
-    static func shouldProccess(response:[String:Any]?, error: Error?)-> (process:Bool, retry:Bool, token: String?)
-    
-    static func createRequest(baseUrl:String, endPoint:String, method:HTTPMethod, parameters:[String:Any]?, token:String?)
-        -> DataRequest
-    
-    static func transformResponseObject(_ responseObject:DataResponse<Any>)-> (response:[String:Any]?, error:Error?)
+public struct MiddlewareResult {
+    var isPassed: Bool
+    var canRetry: Bool
+    var token: String?
 }
 
+public protocol Apiable {
+    associatedtype ResponsableType: Responsable
+    typealias Completion = (_ response:Response?, _ error:Error?)->()
+    typealias Response = [String:Any]
+    
+    // Base Url
+    static var baseUrl: String { get }
+    
+    
+    // Create an api that return an object
+    static func createApi(baseUrl: String?, endPoint: String, method: HTTPMethod, parameters: Parametable?, token:String?)
+        -> ApiRequest<ResponsableType>
+    
+    // Create an api that return a list
+    static func createApiList<ListType: ResponsableList>(baseUrl: String?, endPoint: String, method: HTTPMethod, parameters: Parametable?, token:String?)-> ApiListRequest<ListType>
+    
+    // Called before completion, delimiter that shoud we call the completion function
+    static func middleware(result: ResponseResult)-> MiddlewareResult
+    
+    // Transform response object from api to desire format
+    static func transform(result: ResponseResult)-> ResponseResult
+    
+    // Transform request parameters
+    static func transform(requestParameters parameters: RequestParameters)
+        -> RequestParameters
+}
+
+
 public extension Apiable {
-    static func createApi(baseUrl: String, endPoint: String, method: HTTPMethod, parameter: Parametable? = nil, token:String? = nil)-> ApiRequest<ResponsableType> {
+    static func createApi(baseUrl: String? = nil, endPoint: String, method: HTTPMethod, parameters: Parametable? = nil, token:String? = nil)-> ApiRequest<ResponsableType> {
         var handler: ApiRequest<ResponsableType>.Handler!
         
         // Validation
-        let errorBag = parameter?.validate()
+        let errorBag = parameters?.validate()
         guard errorBag == nil else {
             handler = {
                 $1(nil, errorBag?.first)
@@ -46,20 +63,40 @@ public extension Apiable {
         
         // Request handler
         handler = { isVoid, completion in
-            let dataRequest = createRequest(baseUrl: baseUrl, endPoint: endPoint, method: method, parameters: parameter?.toJSON(), token: token)
-            let responseJSONHandler : ((_ response:[String:Any]?, _ error:Error?) -> Void) = { response, error  in
+            
+            // Create request parameters & transform it
+            var requestParameters = RequestParameters(baseUrl: baseUrl ?? self.baseUrl,
+                                                      endPoint: endPoint,
+                                                      method: method,
+                                                      headers: nil,
+                                                      token: token,
+                                                      parameters: parameters)
+            requestParameters = self.transform(requestParameters: requestParameters)
+            
+            var request = Request(requestParameters: requestParameters, middleware: { result in
+                return self.middleware(result: result)
+            }, transform: { result in
+                return self.transform(result: result)
+            })
+            
+            
+            // Request to server
+            request.response { result in
+                let error = result.error
+                let response = result.response
+                
+                // Check error
                 guard error == nil else {
                     completion(nil, error!)
                     return
                 }
                 
-                let wrongStructureError = NSError(code: .apiWrongStructure, description: "Wrong response structure".localized())
                 guard response == nil
                     && isVoid else {
                         
                         // Response must not nil
                         guard let response = response else {
-                            completion(nil, wrongStructureError)
+                            completion(nil, Request.Error.WrongStructure)
                             return
                         }
                         
@@ -71,7 +108,7 @@ public extension Apiable {
                         
                         // Data have to be mapped
                         guard let info = ResponsableType.init(JSON:data) else {
-                            completion(nil, wrongStructureError)
+                            completion(nil, Request.Error.WrongStructure)
                             return
                         }
                         
@@ -82,62 +119,51 @@ public extension Apiable {
                 
                 completion(nil, nil)
                 return
-            }
-            
-            dataRequest.responseJSON { (responseObject) in
                 
-                DispatchQueue.global().async {
-                    let (response, error) = transformResponseObject(responseObject)
-                    let (process, retry, token) = shouldProccess(response: response, error: error)
-                    guard process else {
-                        if retry {
-                            let dataRequest = createRequest(baseUrl: baseUrl, endPoint: endPoint, method: method, parameters: parameter?.toJSON(), token: token)
-                            dataRequest.responseJSON { (responseObject) in
-                                let (response, error) = transformResponseObject(responseObject)
-                                let (process, _, _) = shouldProccess(response: response, error: error)
-                                guard process else { return }
-                                
-                                
-                                DispatchQueue.main.async {
-                                    responseJSONHandler(response, error)
-                                }
-                            }
-                        }
-                        
-                        return
-                    }
-                    
-                    DispatchQueue.main.async {
-                        responseJSONHandler(response, error)
-                    }
-                }
                 
             }
             
-            return dataRequest
+            return request
         }
         
-        return ApiRequest<ResponsableType>.init(handler: handler)
+        return ApiRequest<ResponsableType>(handler: handler)
     }
     
-    static func createApiList(baseUrl: String, endPoint: String, method: HTTPMethod, parameter: Parametable? = nil, token:String? = nil)-> ApiListRequest<ResponsableType> {
-        var handler: ApiListRequest<ResponsableType>.Handler!
+    static func createApiList<ListType: ResponsableList>(baseUrl: String? = nil, endPoint: String, method: HTTPMethod, parameters: Parametable? = nil, token:String? = nil)-> ApiListRequest<ListType> {
+        var handler: ApiListRequest<ListType>.Handler!
         
         // Validation
-        let errorBag = parameter?.validate()
+        let errorBag = parameters?.validate()
         guard errorBag == nil else {
             handler = {
                 $0(nil, errorBag?.first)
                 return nil
             }
-            return ApiListRequest<ResponsableType>.init(handler: handler)
+            return ApiListRequest<ListType>(handler: handler)
         }
         
         
         // Request handler
         handler = { completion in
-            let dataRequest = createRequest(baseUrl: baseUrl, endPoint: endPoint, method: method, parameters: parameter?.toJSON(), token: token)
-            let responseJSONHandler : ((_ response:[String:Any]?, _ error:Error?) -> Void) = { response, error  in
+            // Create request parameters & transform it
+            var requestParameters = RequestParameters(baseUrl: baseUrl ?? self.baseUrl,
+                                                      endPoint: endPoint,
+                                                      method: method,
+                                                      headers: nil,
+                                                      token: token,
+                                                      parameters: parameters)
+            requestParameters = self.transform(requestParameters: requestParameters)
+            
+            var request = Request(requestParameters: requestParameters, middleware: { result in
+                return self.middleware(result: result)
+            }, transform: { result in
+                return self.transform(result: result)
+            })
+            
+            request.response(completion: { result in
+                let error = result.error
+                let response = result.response
+                
                 guard error == nil else {
                     completion(nil, error!)
                     return
@@ -145,51 +171,21 @@ public extension Apiable {
                 
                 
                 guard response != nil else {
-                    let error = NSError(code: .apiWrongStructure, description: "Wrong response structure".localized())
-                    completion(nil, error)
+                    completion(nil, Request.Error.WrongStructure)
                     return
                 }
                 
-                let info = ResponseList<ResponsableType>.init(JSON:response!)
+                let info = ListType(JSON:response!)
                 completion(info!, nil)
-            }
+            })
             
-            dataRequest.responseJSON { (responseObject) in
-                DispatchQueue.global().async {
-                    let (response, error) = transformResponseObject(responseObject)
-                    let (process, retry, token) = shouldProccess(response: response, error: error)
-                    guard process else {
-                        if retry {
-                            let dataRequest = createRequest(baseUrl: baseUrl, endPoint: endPoint, method: method, parameters: parameter?.toJSON(), token: token)
-                            dataRequest.responseJSON { (responseObject) in
-                                let (response, error) = transformResponseObject(responseObject)
-                                let (process, _, _) = shouldProccess(response: response, error: error)
-                                guard process else { return }
-                                
-                                
-                                DispatchQueue.main.async {
-                                    responseJSONHandler(response, error)
-                                }
-                            }
-                        }
-                        
-                        return
-                    }
-                    
-                    DispatchQueue.main.async {
-                        responseJSONHandler(response, error)
-                    }
-                }
-                
-            }
-            
-            return dataRequest
+            return request
         }
         
-        return ApiListRequest<ResponsableType>.init(handler: handler)
+        return ApiListRequest<ListType>(handler: handler)
     }
     
-    static func shouldProccess(response:[String:Any]?, error: Error?)-> (process:Bool, retry:Bool, token: String?) {
-        return (process:true, retry:false, token:nil)
+    static func middleware(result: ResponseResult)-> MiddlewareResult {
+        return MiddlewareResult(isPassed: true, canRetry: false, token: nil)
     }
 }

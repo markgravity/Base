@@ -13,6 +13,7 @@ public typealias PopupShowType = PopupView.ShowType
 public typealias PopupDismissType = PopupView.DismissType
 public typealias PopupLayoutHorizontal = PopupView.HorizontalLayout
 public typealias PopupLayoutVertical = PopupView.VerticalLayout
+public typealias PopupMaskType = PopupView.MaskType
 
 public enum PopupConfigKey: Int {
     case dimmedMaskAlpha,
@@ -21,7 +22,9 @@ public enum PopupConfigKey: Int {
     dismissType,
     layoutHorizontal,
     layoutVertical,
-    onDismiss
+    onDismiss,
+    onShowing,
+    maskType
 }
 
 
@@ -98,6 +101,12 @@ public extension Popupable where Self:UIView {
                     
                 case .onDismiss:
                     popup.didFinishDismissingCompletion = value as! (()->())
+                    
+                case .onShowing:
+                    popup.didFinishShowingCompletion = value as! (()->())
+                    
+                case .maskType:
+                    popup.maskType = value as! PopupMaskType
                 }
             }
         }

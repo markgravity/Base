@@ -16,6 +16,8 @@
 		2D3A78E02183225E0048A192 /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3A78DF2183225E0048A192 /* CustomView.swift */; };
 		2D3A78E2218324760048A192 /* UINib.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3A78E1218324760048A192 /* UINib.swift */; };
 		2D3A78E42183284C0048A192 /* UITableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D3A78E32183284C0048A192 /* UITableViewCell.xib */; };
+		2D51041122F29F090018FE70 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D51041022F29F090018FE70 /* Request.swift */; };
+		2D58CC84230E489F00D6E4FC /* EnumTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D58CC83230E489F00D6E4FC /* EnumTransform.swift */; };
 		2D86E15E2188131D009FEB62 /* Translatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D86E15D2188131D009FEB62 /* Translatable.swift */; };
 		2D86E16021881729009FEB62 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D86E15F21881729009FEB62 /* Extension.swift */; };
 		2D86E168218850DE009FEB62 /* PresentThenPopSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D86E164218850DD009FEB62 /* PresentThenPopSegue.swift */; };
@@ -24,6 +26,7 @@
 		2D86E16B218850DE009FEB62 /* PopThenPushSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D86E167218850DD009FEB62 /* PopThenPushSegue.swift */; };
 		2D86E16D2188536F009FEB62 /* Validation.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2D86E16C2188536F009FEB62 /* Validation.plist */; };
 		2D92564422A26A6D00559398 /* FormDataParametable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D92564322A26A6D00559398 /* FormDataParametable.swift */; };
+		2DA48FFD230FF45000512B6E /* ApiSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA48FFC230FF45000512B6E /* ApiSequence.swift */; };
 		2DD136ED218216120063ACF4 /* Base.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DD136E3218216120063ACF4 /* Base.framework */; };
 		2DD136F2218216120063ACF4 /* BaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD136F1218216120063ACF4 /* BaseTests.swift */; };
 		2DD136F4218216120063ACF4 /* Base.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DD136E6218216120063ACF4 /* Base.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -136,6 +139,8 @@
 		2D3A78DF2183225E0048A192 /* CustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
 		2D3A78E1218324760048A192 /* UINib.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UINib.swift; sourceTree = "<group>"; };
 		2D3A78E32183284C0048A192 /* UITableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UITableViewCell.xib; sourceTree = "<group>"; };
+		2D51041022F29F090018FE70 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		2D58CC83230E489F00D6E4FC /* EnumTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnumTransform.swift; sourceTree = "<group>"; };
 		2D86E15D2188131D009FEB62 /* Translatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Translatable.swift; sourceTree = "<group>"; };
 		2D86E15F21881729009FEB62 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		2D86E164218850DD009FEB62 /* PresentThenPopSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentThenPopSegue.swift; sourceTree = "<group>"; };
@@ -144,6 +149,7 @@
 		2D86E167218850DD009FEB62 /* PopThenPushSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopThenPushSegue.swift; sourceTree = "<group>"; };
 		2D86E16C2188536F009FEB62 /* Validation.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Validation.plist; sourceTree = "<group>"; };
 		2D92564322A26A6D00559398 /* FormDataParametable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormDataParametable.swift; sourceTree = "<group>"; };
+		2DA48FFC230FF45000512B6E /* ApiSequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiSequence.swift; sourceTree = "<group>"; };
 		2DD136E3218216120063ACF4 /* Base.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Base.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DD136E6218216120063ACF4 /* Base.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Base.h; sourceTree = "<group>"; };
 		2DD136E7218216120063ACF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -348,13 +354,15 @@
 			children = (
 				2DD75A4721AD254E0057E349 /* Extensions */,
 				2DD1370B218216E00063ACF4 /* Apiable.swift */,
+				2D51041022F29F090018FE70 /* Request.swift */,
 				2DD1371E21821DB60063ACF4 /* ApiRequest.swift */,
+				2DA48FFC230FF45000512B6E /* ApiSequence.swift */,
 				2DD1372021821DD50063ACF4 /* ApiListRequest.swift */,
 				2DD13712218217360063ACF4 /* ResponseList.swift */,
 				2DD1370C218216E00063ACF4 /* Parametable.swift */,
+				2D92564322A26A6D00559398 /* FormDataParametable.swift */,
 				2DD1370F218216F80063ACF4 /* Responsable.swift */,
 				2DD1371C21821C3E0063ACF4 /* ApiErrorCode.swift */,
-				2D92564322A26A6D00559398 /* FormDataParametable.swift */,
 			);
 			path = Api;
 			sourceTree = "<group>";
@@ -457,6 +465,7 @@
 			children = (
 				2D3A78CF21831B1C0048A192 /* NumericTransform.swift */,
 				2DD1377C218319CE0063ACF4 /* TimestampTranform.swift */,
+				2D58CC83230E489F00D6E4FC /* EnumTransform.swift */,
 			);
 			path = Transforms;
 			sourceTree = "<group>";
@@ -836,11 +845,14 @@
 				2DD13706218216CD0063ACF4 /* ValidationMessage.swift in Sources */,
 				2DD1370A218216CD0063ACF4 /* ValidationExtenstion.swift in Sources */,
 				2DD13770218317E60063ACF4 /* UIViewController.swift in Sources */,
+				2D58CC84230E489F00D6E4FC /* EnumTransform.swift in Sources */,
 				2DD75A4D21AD2C400057E349 /* ApiObservableType.swift in Sources */,
 				2D3A78E2218324760048A192 /* UINib.swift in Sources */,
 				2DE89BE021A518A8004F3DB4 /* NSLayoutConstraint.swift in Sources */,
 				2DD13710218216F80063ACF4 /* Responsable.swift in Sources */,
+				2D51041122F29F090018FE70 /* Request.swift in Sources */,
 				2DD75A4921AD255C0057E349 /* ObservableType.swift in Sources */,
+				2DA48FFD230FF45000512B6E /* ApiSequence.swift in Sources */,
 				2DD13718218218630063ACF4 /* Error.swift in Sources */,
 				2DD1372121821DD50063ACF4 /* ApiListRequest.swift in Sources */,
 				2DD1370E218216E10063ACF4 /* Parametable.swift in Sources */,
