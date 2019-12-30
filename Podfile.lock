@@ -20,7 +20,7 @@ DEPENDENCIES:
   - Device
   - NVActivityIndicatorView
   - ObjectMapper
-  - PopupKit
+  - PopupKit (from `https://github.com/markgravity/PopupKit.git`)
   - PureLayout
   - RxCocoa
   - RxSwift
@@ -33,11 +33,19 @@ SPEC REPOS:
     - Device
     - NVActivityIndicatorView
     - ObjectMapper
-    - PopupKit
     - PureLayout
     - RxCocoa
     - RxSwift
     - SwiftyJSON
+
+EXTERNAL SOURCES:
+  PopupKit:
+    :git: https://github.com/markgravity/PopupKit.git
+
+CHECKOUT OPTIONS:
+  PopupKit:
+    :commit: e3e2450dc4ec31d73ce91ff8ad70768791e65628
+    :git: https://github.com/markgravity/PopupKit.git
 
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
@@ -51,6 +59,6 @@ SPEC CHECKSUMS:
   RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
 
-PODFILE CHECKSUM: 26e31772f4776b3ace09bed4ed06c4ab0954c235
+PODFILE CHECKSUM: 6100cecc42d56aac965a487283b9d3b7798e60be
 
 COCOAPODS: 1.5.2

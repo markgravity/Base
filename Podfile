@@ -16,7 +16,7 @@ target 'Base' do
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'PureLayout'
-  pod 'PopupKit'
+  pod 'PopupKit', :git => 'https://github.com/markgravity/PopupKit.git'
   pod 'Device'
   pod 'NVActivityIndicatorView'
   
@@ -38,5 +38,5 @@ target 'Example' do
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'PureLayout'
-  pod 'PopupKit'
+  pod 'PopupKit', :git => 'https://github.com/markgravity/PopupKit.git'
 end

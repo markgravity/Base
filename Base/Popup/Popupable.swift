@@ -21,7 +21,8 @@ public enum PopupConfigKey: Int {
     dismissType,
     layoutHorizontal,
     layoutVertical,
-    onDismiss
+    onDismiss,
+    onBackgroundTap
 }
 
 
@@ -98,6 +99,9 @@ public extension Popupable where Self:UIView {
                     
                 case .onDismiss:
                     popup.didFinishDismissingCompletion = value as! (()->())
+                    
+                case .onBackgroundTap:
+                    popup.onBackgroundTap = value as! (()->())
                 }
             }
         }
