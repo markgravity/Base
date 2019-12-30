@@ -13,15 +13,20 @@ import RxSwift
 import ObjectMapper
 
 public struct MiddlewareResult {
-    var isPassed: Bool
-    var canRetry: Bool
-    var token: String?
+    public var passable: Bool
+    public var retryable: Bool
+    public var token: String?
+    
+    public init(passable: Bool, retryable: Bool, token: String?) {
+        self.passable = passable
+        self.retryable = retryable
+        self.token = token
+    }
 }
 
 public protocol Apiable {
-    associatedtype ResponsableType: Responsable
-    typealias Completion = (_ response:Response?, _ error:Error?)->()
-    typealias Response = [String:Any]
+    associatedtype ObjectType: Responsable
+    associatedtype ListType: ResponsableList
     
     // Base Url
     static var baseUrl: String { get }
@@ -29,27 +34,27 @@ public protocol Apiable {
     
     // Create an api that return an object
     static func createApi(baseUrl: String?, endPoint: String, method: HTTPMethod, parameters: Parametable?, token:String?)
-        -> ApiRequest<ResponsableType>
+        -> ApiRequest<ObjectType>
     
     // Create an api that return a list
-    static func createApiList<ListType: ResponsableList>(baseUrl: String?, endPoint: String, method: HTTPMethod, parameters: Parametable?, token:String?)-> ApiListRequest<ListType>
+    static func createApiList(baseUrl: String?, endPoint: String, method: HTTPMethod, parameters: Parametable?, token:String?)-> ApiListRequest<ListType>
     
     // Called before completion, delimiter that shoud we call the completion function
-    static func middleware(result: ResponseResult)-> MiddlewareResult
+    static func middleware(response: Response<[String:Any]>)-> MiddlewareResult
     
     // Transform response object from api to desire format
-    static func transform(result: ResponseResult)-> ResponseResult
-    
+    static func transform(response: Response<Data>)-> Response<[String:Any]>
+
     // Transform request parameters
-    static func transform(requestParameters parameters: RequestParameters)
-        -> RequestParameters
+    static func modify(configure: RequestConfigure)
+        -> RequestConfigure
 }
 
 
 public extension Apiable {
-    static func createApi(baseUrl: String? = nil, endPoint: String, method: HTTPMethod, parameters: Parametable? = nil, token:String? = nil)-> ApiRequest<ResponsableType> {
-        var handler: ApiRequest<ResponsableType>.Handler!
-        
+    static func createApi(baseUrl: String? = nil, endPoint: String, method: HTTPMethod, parameters: Parametable? = nil, token:String? = nil)-> ApiRequest<ObjectType> {
+        var handler: ApiRequest<ObjectType>.Handler!
+
         // Validation
         let errorBag = parameters?.validate()
         guard errorBag == nil else {
@@ -57,79 +62,72 @@ public extension Apiable {
                 $1(nil, errorBag?.first)
                 return nil
             }
-            return ApiRequest<ResponsableType>.init(handler: handler)
+            return ApiRequest<ObjectType>(handler: handler)
         }
-        
-        
+
+
         // Request handler
         handler = { isVoid, completion in
-            
             // Create request parameters & transform it
-            var requestParameters = RequestParameters(baseUrl: baseUrl ?? self.baseUrl,
+            var configure = RequestConfigure(baseUrl: baseUrl ?? self.baseUrl,
                                                       endPoint: endPoint,
                                                       method: method,
                                                       headers: nil,
                                                       token: token,
                                                       parameters: parameters)
-            requestParameters = self.transform(requestParameters: requestParameters)
-            
-            var request = Request(requestParameters: requestParameters, middleware: { result in
-                return self.middleware(result: result)
-            }, transform: { result in
-                return self.transform(result: result)
+            configure = self.modify(configure: configure)
+
+            var request = Request(configure: configure, middlewareClosure:
+            {
+                return self.middleware(response: $0)
+            }, transformClosure: {
+                return self.transform(response: $0)
             })
-            
-            
+
+
             // Request to server
-            request.response { result in
-                let error = result.error
-                let response = result.response
-                
+            request.response {
+                let error = $0.error
+
                 // Check error
                 guard error == nil else {
                     completion(nil, error!)
                     return
                 }
-                
-                guard response == nil
+
+                guard $0.data == nil
                     && isVoid else {
-                        
+
                         // Response must not nil
-                        guard let response = response else {
-                            completion(nil, Request.Error.WrongStructure)
+                        guard let data = $0.data else {
+                            completion(nil, NSError(code: .apiWrongStructure, description: "Data is not found"))
                             return
                         }
-                        
-                        // Prefer get data inside `response`
-                        var data = response
-                        if let tmp = response["data"] as? [String:Any] {
-                            data = tmp
-                        }
-                        
+
                         // Data have to be mapped
-                        guard let info = ResponsableType.init(JSON:data) else {
-                            completion(nil, Request.Error.WrongStructure)
+                        guard let info = ObjectType(JSON:data) else {
+                            completion(nil, NSError(code: .apiWrongStructure, description: "Wrong data structure"))
                             return
                         }
-                        
+
                         // Success
                         completion(info, nil)
                         return
                 }
-                
+
                 completion(nil, nil)
                 return
-                
-                
+
+
             }
-            
+
             return request
         }
-        
-        return ApiRequest<ResponsableType>(handler: handler)
+
+        return ApiRequest<ObjectType>(handler: handler)
     }
     
-    static func createApiList<ListType: ResponsableList>(baseUrl: String? = nil, endPoint: String, method: HTTPMethod, parameters: Parametable? = nil, token:String? = nil)-> ApiListRequest<ListType> {
+    static func createApiList(baseUrl: String? = nil, endPoint: String, method: HTTPMethod, parameters: Parametable? = nil, token:String? = nil)-> ApiListRequest<ListType> {
         var handler: ApiListRequest<ListType>.Handler!
         
         // Validation
@@ -146,23 +144,22 @@ public extension Apiable {
         // Request handler
         handler = { completion in
             // Create request parameters & transform it
-            var requestParameters = RequestParameters(baseUrl: baseUrl ?? self.baseUrl,
+            var configure = RequestConfigure(baseUrl: baseUrl ?? self.baseUrl,
                                                       endPoint: endPoint,
                                                       method: method,
                                                       headers: nil,
                                                       token: token,
                                                       parameters: parameters)
-            requestParameters = self.transform(requestParameters: requestParameters)
+            configure = self.modify(configure: configure)
             
-            var request = Request(requestParameters: requestParameters, middleware: { result in
-                return self.middleware(result: result)
-            }, transform: { result in
-                return self.transform(result: result)
+            var request = Request(configure: configure, middlewareClosure: {
+                return self.middleware(response: $0)
+            }, transformClosure: {
+                return self.transform(response: $0)
             })
             
-            request.response(completion: { result in
-                let error = result.error
-                let response = result.response
+            request.response(completion: {
+                let error = $0.error
                 
                 guard error == nil else {
                     completion(nil, error!)
@@ -170,12 +167,12 @@ public extension Apiable {
                 }
                 
                 
-                guard response != nil else {
-                    completion(nil, Request.Error.WrongStructure)
+                guard let data = $0.data else {
+                    completion(nil, NSError(code: .apiWrongStructure, description: "Data is not found"))
                     return
                 }
                 
-                let info = ListType(JSON:response!)
+                let info = ListType(JSON:data)
                 completion(info!, nil)
             })
             
@@ -185,7 +182,7 @@ public extension Apiable {
         return ApiListRequest<ListType>(handler: handler)
     }
     
-    static func middleware(result: ResponseResult)-> MiddlewareResult {
-        return MiddlewareResult(isPassed: true, canRetry: false, token: nil)
-    }
+//    static func middleware(response: Response<[String:Any]>)-> MiddlewareResult {
+//        return MiddlewareResult(passable: true, retryable: true, token: nil)
+//    }
 }

@@ -7,7 +7,7 @@ import RxSwift
 
 class ___FILEBASENAMEASIDENTIFIER___: ___VARIABLE_cocoaTouchSubclass___ {
     typealias ViewModelType = ___VARIABLE_viewModelClass___
-    var disposeBag: DisposeBag = DisposeBag()
+    var disposeBag = DisposeBag()
     var viewModel: ___VARIABLE_viewModelClass___!
     
     override func viewDidLoad() {
@@ -19,7 +19,7 @@ class ___FILEBASENAMEASIDENTIFIER___: ___VARIABLE_cocoaTouchSubclass___ {
     }
 }
 
-// Navigation
+// MARK: - Navigation
 extension ___FILEBASENAMEASIDENTIFIER___ {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
@@ -27,7 +27,7 @@ extension ___FILEBASENAMEASIDENTIFIER___ {
     }
 }
 
-// HasViewModel
+// MARK: - HasViewModel
 extension ___FILEBASENAMEASIDENTIFIER___: HasViewModel {
     func setup() {
         
