@@ -33,12 +33,13 @@ public func alert(title: String? = nil, message: String, handler: Handler? = nil
     alert.modalPresentationStyle = .overCurrentContext
     alert.addAction(action)
     
-    let win = UIWindow(frame: UIScreen.main.bounds)
-    win.rootViewController = UIViewController()
-    win.windowLevel = .alert + 1
-    win.makeKeyAndVisible()
-    win.rootViewController?.present(alert, animated: true, completion: nil)
-//    UIApplication.shared.keyWindow?.visibleViewController?.present(alert, animated: true, completion: nil)
+//    let win = UIWindow(frame: UIScreen.main.bounds)
+//    win.rootViewController = UIViewController()
+//    win.windowLevel = .alert + 1
+//    win.makeKeyAndVisible()
+//    win.rootViewController?.present(alert, animated: true, completion: nil)
+    UIApplication.shared.keyWindow?
+        .visibleViewController?.present(alert, animated: true, completion: nil)
 //    UIApplication.shared.keyWindow?.bringSubviewToFront(UIApplication.shared.keyWindow!.subviews[1])
 }
 
