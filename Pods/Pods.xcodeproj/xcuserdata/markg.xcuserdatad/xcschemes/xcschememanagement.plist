@@ -169,6 +169,11 @@
 			<key>orderHint</key>
 			<integer>12</integer>
 		</dict>
+		<key>RxRelay.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>13</integer>
+		</dict>
 		<key>RxSwift-framework.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -187,7 +192,7 @@
 		<key>RxSwift.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>13</integer>
+			<integer>14</integer>
 		</dict>
 		<key>SwiftyJSON-framework.xcscheme</key>
 		<dict>
@@ -207,7 +212,7 @@
 		<key>SwiftyJSON.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>14</integer>
+			<integer>15</integer>
 		</dict>
 	</dict>
 </dict>

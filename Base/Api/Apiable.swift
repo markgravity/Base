@@ -26,7 +26,7 @@ public protocol Apiable {
     static func createRequest(baseUrl:String, endPoint:String, method:HTTPMethod, parameters:[String:Any]?, token:String?)
         -> DataRequest
     
-    static func transformResponseObject(_ responseObject:DataResponse<Any>)-> (response:[String:Any]?, error:Error?)
+    static func transformResponseObject(_ responseObject:AFDataResponse<Any>)-> (response:[String:Any]?, error:Error?)
 }
 
 public extension Apiable {

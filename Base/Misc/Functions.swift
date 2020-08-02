@@ -12,12 +12,12 @@ import NVActivityIndicatorView
 public typealias Handler = (()->())
 
 public func showProgressHUD() {
-    let data = ActivityData.init(type: .circleStrokeSpin)
-    NVActivityIndicatorPresenter.sharedInstance.startAnimating(data, nil)
+//    let data = ActivityData.init(type: .circleStrokeSpin)
+//    NVActivityIndicatorPresenter.sharedInstance.startAnimating(data, nil)
 }
 
 public func dismissProgressHUD() {
-    NVActivityIndicatorPresenter.sharedInstance.stopAnimating(nil)
+//    NVActivityIndicatorPresenter.sharedInstance.stopAnimating(nil)
 }
 
 public func alert(error: Error, title: String? = nil, handler: Handler? = nil) {

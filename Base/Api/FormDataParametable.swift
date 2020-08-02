@@ -8,11 +8,11 @@
 
 import UIKit
 
-public protocol FormDataParametable: Parametable {
+public protocol FormDataParametablee: Parametable {
     func toData() -> [String:Data]
 }
 
-public extension FormDataParametable {
+public extension FormDataParametablee {
     func toData() -> [String:Data] {
         let JSON = toJSON()
         var data = [String:Data]();

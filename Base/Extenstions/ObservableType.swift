@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 
 public extension ObservableType {
-    func showProgressHUD()-> Observable<E> {
+    func showProgressHUD()-> Observable<Element> {
         
         return self
             .do(onNext: { _ in
@@ -19,7 +19,7 @@ public extension ObservableType {
             })
     }
     
-    func dismissProgressHUD()-> Observable<E> {
+    func dismissProgressHUD()-> Observable<Element> {
 
         return self
             .do(onNext: { _ in
@@ -33,7 +33,7 @@ public extension ObservableType {
         return self.map { _ in ()}
     }
     
-    func catchErrorThenAlert(_ handler: Handler? = nil)-> Observable<E> {
+    func catchErrorThenAlert(_ handler: Handler? = nil)-> Observable<Element> {
         return self.catchError {
             Base.dismissProgressHUD()
             alert(error: $0, handler: handler)
@@ -42,7 +42,7 @@ public extension ObservableType {
         }
     }
     
-    func skipError()-> Observable<E> {
+    func skipError()-> Observable<Element> {
         return self.catchError { _ in
             Base.dismissProgressHUD()
             
@@ -54,7 +54,7 @@ public extension ObservableType {
 //
 //    }
     
-    func alsoBind(to relay: RxCocoa.BehaviorRelay<Self.E>) -> Observable<E> {
+    func alsoBind(to relay: RxCocoa.BehaviorRelay<Self.Element>) -> Observable<Element> {
         
         return self
             .do(onNext: {

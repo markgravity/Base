@@ -54,7 +54,7 @@ public extension Popupable where Self:UIView {
         view.frame = frame
         view.backgroundColor = .clear
         view.addSubview(contentView)
-        contentView.autoPinEdgesToSuperviewEdges()
+//        contentView.autoPinEdgesToSuperviewEdges()
         
         // Setup Autolayout
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -64,6 +64,7 @@ public extension Popupable where Self:UIView {
             NSLayoutConstraint.init(item: view, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: frame.width)
         ]
         constraints[0].priority = UILayoutPriority.init(649)
+        constraints[2].priority = UILayoutPriority.init(649)
         NSLayoutConstraint.activate(constraints)
         
         view.setup()
@@ -101,7 +102,8 @@ public extension Popupable where Self:UIView {
                     popup.didFinishDismissingCompletion = value as! (()->())
                     
                 case .onBackgroundTap:
-                    popup.onBackgroundTap = value as! (()->())
+                    break
+//                    popup.onBackgroundTap = value as! (()->())
                 }
             }
         }

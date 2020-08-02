@@ -1,18 +1,21 @@
 PODS:
-  - Alamofire (4.8.2)
-  - AlamofireImage (3.5.2):
-    - Alamofire (~> 4.8)
-  - Device (3.1.2)
-  - NVActivityIndicatorView (4.7.0):
-    - NVActivityIndicatorView/Presenter (= 4.7.0)
-  - NVActivityIndicatorView/Presenter (4.7.0)
-  - ObjectMapper (3.4.2)
+  - Alamofire (5.0.5)
+  - AlamofireImage (4.0.3):
+    - Alamofire (< 6.0.0, >= 5.0.2)
+  - Device (3.2.1)
+  - NVActivityIndicatorView (4.8.0):
+    - NVActivityIndicatorView/Presenter (= 4.8.0)
+  - NVActivityIndicatorView/Presenter (4.8.0)
+  - ObjectMapper (3.5.2)
   - PopupKit (3.1.1)
-  - PureLayout (3.1.4)
-  - RxCocoa (4.5.0):
-    - RxSwift (>= 4.4.2, ~> 4.4)
-  - RxSwift (4.5.0)
-  - SwiftyJSON (4.3.0)
+  - PureLayout (3.1.5)
+  - RxCocoa (5.1.0):
+    - RxRelay (~> 5)
+    - RxSwift (~> 5)
+  - RxRelay (5.1.0):
+    - RxSwift (~> 5)
+  - RxSwift (5.1.0)
+  - SwiftyJSON (5.0.0)
 
 DEPENDENCIES:
   - Alamofire
@@ -35,6 +38,7 @@ SPEC REPOS:
     - ObjectMapper
     - PureLayout
     - RxCocoa
+    - RxRelay
     - RxSwift
     - SwiftyJSON
 
@@ -44,20 +48,21 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   PopupKit:
-    :commit: e3e2450dc4ec31d73ce91ff8ad70768791e65628
+    :commit: cd436dce33dbb2d45f64aed390c44373a735780e
     :git: https://github.com/markgravity/PopupKit.git
 
 SPEC CHECKSUMS:
-  Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
-  AlamofireImage: 63cfe3baf1370be6c498149687cf6db3e3b00999
-  Device: 62242076214c30fb5760174b3601cefafa70a481
-  NVActivityIndicatorView: b19ddab2576f805cbe0fb2306cba3476e09a1dea
-  ObjectMapper: 0d4402610f4e468903ae64629eec4784531e5c51
+  Alamofire: df2f8f826963b08b9a870791ad48e07a10090b2e
+  AlamofireImage: 3d1a2010519e58675318735580eb856e88840ff7
+  Device: 0738862dd8a30856b4bd9e21cb9b728873d21392
+  NVActivityIndicatorView: d24b7ebcf80af5dcd994adb650e2b6c93379270f
+  ObjectMapper: b53ae947d370bf89423e86be7d4e2d2b2a8d3f40
   PopupKit: e362ed92148d831a9c38a2bc7a25893e46d64c54
-  PureLayout: f08c01b8dec00bb14a1fefa3de4c7d9c265df85e
-  RxCocoa: cbf70265dc65a981d4ac982e513c10cf23df24a0
-  RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
-  SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
+  PureLayout: 9b4ad47b2f0388c84ff534af23d96e720c1b875a
+  RxCocoa: 13d2a4d7546a34b8ececae8c281e4ea1dbb94f2b
+  RxRelay: a168bd6caf712d00c676ac344e9295afc93b418e
+  RxSwift: ad5874f24bb0dbffd1e9bb8443604e3578796c7a
+  SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
 
 PODFILE CHECKSUM: 6100cecc42d56aac965a487283b9d3b7798e60be
 

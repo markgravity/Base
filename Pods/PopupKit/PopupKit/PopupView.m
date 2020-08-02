@@ -113,9 +113,13 @@ static const PopupViewLayout PopupViewLayoutCenter = {PopupViewHorizontalLayoutC
 
         _backgroundView = [[UIView alloc] init];
         _backgroundView.backgroundColor = [UIColor clearColor];
-        _backgroundView.userInteractionEnabled = NO;
+        _backgroundView.userInteractionEnabled = YES;
         _backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         _backgroundView.frame = self.bounds;
+        
+        // Add tap recognizer on background view
+        UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backgroudViewTap)];
+        [_backgroundView addGestureRecognizer:recognizer];
 
         _containerView = [[UIView alloc] init];
         _containerView.autoresizesSubviews = NO;
@@ -147,6 +151,16 @@ static const PopupViewLayout PopupViewLayoutCenter = {PopupViewHorizontalLayoutC
 }
 
 #pragma mark - UIView
+- (void) backgroudViewTap {
+    // Try to dismiss if backgroundTouch flag set.
+    if (_shouldDismissOnBackgroundTouch) {
+        [self dismiss:YES];
+    }
+    
+    if (self.onBackgroundTap != NULL) {
+        self.onBackgroundTap();
+    }
+}
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
 
@@ -156,13 +170,6 @@ static const PopupViewLayout PopupViewLayoutCenter = {PopupViewHorizontalLayoutC
 
     UIView *hitView = [super hitTest:point withEvent:event];
     if (hitView == self || [NSStringFromClass([hitView class]) isEqualToString:@"_UIVisualEffectContentView"]) {
-
-        // Try to dismiss if backgroundTouch flag set.
-        if (_shouldDismissOnBackgroundTouch) {
-            [self dismiss:YES];
-        } else {
-            [self onBackgroundTap];
-        }
 
         // If no mask, then return nil so touch passes through to underlying views.
         if (_maskType == PopupViewMaskTypeNone) {
